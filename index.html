@@ -402,11 +402,13 @@
             let aggregated;
             if (startMonth || endMonth) {
                 aggregated = aggregateByStore(filtered, startMonth, endMonth);
-                aggregated.sort((a, b) => b.GMV - a.GMV);
-            } else {
-                // No range, just use all filtered data
-                aggregated = filtered;
             }
+            
+            // Always sort by GMV descending (highest first)
+            if (!aggregated) {
+                aggregated = [...filtered];
+            }
+            aggregated.sort((a, b) => b.GMV - a.GMV);
 
             // Take top 50
             const top50 = aggregated.slice(0, 50);
@@ -437,11 +439,13 @@
             let aggregated;
             if (startMonth || endMonth) {
                 aggregated = aggregateByStore(filtered, startMonth, endMonth);
-                aggregated.sort((a, b) => a.GMV - b.GMV);
-            } else {
-                // No range, just use all filtered data
-                aggregated = filtered;
             }
+            
+            // Always sort by GMV ascending (lowest first)
+            if (!aggregated) {
+                aggregated = [...filtered];
+            }
+            aggregated.sort((a, b) => a.GMV - b.GMV);
 
             // Take low 50
             const low50 = aggregated.slice(0, 50);
