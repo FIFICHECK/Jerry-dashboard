@@ -51,6 +51,7 @@
         .tape-orange { background: #ff9800; color: #fff; padding: 2px 8px; border-radius: 3px; }
         .tape-violet { background: #9c27b0; color: #fff; padding: 2px 8px; border-radius: 3px; }
         .contract-warning { color: #f44336; font-weight: bold; }
+        .terminated-store { background: #f48fb1; }
     </style>
 </head>
 <body>
@@ -813,6 +814,9 @@ function renderLowMerchants() {
                 // Brand flagship / 13LM icons
                 const brandFlagshipStores = ['B0961004','B1192001','B1252001','B1366001','B1709002','B1709003','B1709004','B1709005','B1709006','B1776001','H0228001','H0569002','H0569003','H0623004','H0883005','H5600001','H5858005','H5859005','H5859006','H6183001','H6521002','H6550001','H6754005','H6754006','H7775001','H8024001','H9569001','H9776001','S2818001','S2818002','S6477001'];
                 const thirteenLMStores = ['H8217001', 'P0034002', 'P0066001', 'P0066002', 'P0143002'];
+                const terminatedStores = ['B1001001','B1463003','B1463004','H4302001','H4321001','H5859005','H5859006','H6683001','P0066001','P0066002','S2818003'];
+                const isTerminated = terminatedStores.includes(storeId);
+                const terminatedClass = isTerminated ? ' terminated-store' : '';
                 let brandIcon = '-';
                 if (thirteenLMStores.includes(storeId)) {
                     brandIcon = '<span class="sparkle-diamond">💎</span><span class="sparkle-crown">👑</span>';
@@ -841,8 +845,8 @@ function renderLowMerchants() {
                     }
                 }
                 return '<tr>' +
-                    '<td><a href="https://www.hktvmall.com/hktv/s/' + storeId + '" target="_blank" class="store-link">' + (storeId || 'N/A') + '</a></td>' +
-                    '<td class="store-name" title="' + (s.primary_store_name_chi || '') + '">' + (s.primary_store_name_chi || 'N/A') + '</td>' +
+                    '<td class="' + terminatedClass + '"><a href="https://www.hktvmall.com/hktv/s/' + storeId + '" target="_blank" class="store-link' + (isTerminated ? '' : '') + '">' + (storeId || 'N/A') + '</a></td>' +
+                    '<td class="store-name' + terminatedClass + '" title="' + (s.primary_store_name_chi || '') + '">' + (s.primary_store_name_chi || 'N/A') + '</td>' +
                     '<td style="text-align:center;font-size:16px;">' + brandIcon + '</td>' +
                     '<td>' + displayGmv + '</td>' +
                     '<td>' + formatMom(s.mom_change) + '</td>' +
