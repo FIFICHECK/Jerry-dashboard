@@ -22,12 +22,12 @@
         .card .mom { font-size: 14px; margin-top: 5px; }
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; }
         th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f0e0e0; }
-        /* Sparkle + rotate animation for diamond */
-        @keyframes sparkle {
-            0%, 100% { color: #1a1a1a; text-shadow: 0 0 2px #ffd700, 0 0 4px #ffd700, 0 0 6px #ffd700; opacity: 1; transform: rotateY(0deg); }
-            50% { color: #ffd700; text-shadow: 0 0 4px #ffd700, 0 0 8px #ffd700, 0 0 12px #ffd700, 0 0 20px #fff; opacity: 0.9; transform: rotateY(180deg); }
+        /* Black diamond sparkle animation */
+        @keyframes sparkle-black {
+            0%, 100% { color: #1a1a1a; text-shadow: 0 0 1px #666, 0 0 2px #999, 0 0 3px #ccc; opacity: 0.8; transform: rotateY(0deg); }
+            50% { color: #444; text-shadow: 0 0 2px #fff, 0 0 4px #ddd, 0 0 6px #bbb, 0 0 8px #999; opacity: 1; transform: rotateY(180deg); }
         }
-        .sparkle-diamond { display: inline-block; font-size: 14px; animation: sparkle 2s ease-in-out infinite; }
+        .sparkle-diamond { display: inline-block; font-size: 14px; animation: sparkle-black 2s ease-in-out infinite; }
         .sparkle-crown { display: inline-block; font-size: 14px; animation: sparkle 2.5s ease-in-out infinite; animation-delay: 0.5s; }
         th { background: #faf5f5; color: #8b5a5a; position: sticky; top: 0; z-index: 20; border-bottom: 2px solid #e8c4c4; }
         thead { position: sticky; top: 0; z-index: 19; }
