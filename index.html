@@ -774,8 +774,8 @@ function renderLowMerchants() {
                 const c = contactData[storeId] || {};
                 const displayGmv = s.GMV === 0 ? '$0.00' : formatNum(s.GMV);
                 // Brand flagship / 13LM icons
-                const brandFlagshipStores = ['P0066001', 'P0066002', 'P0143002'];
-                const thirteenLMStores = ['H8217001', 'P0034002'];
+                const brandFlagshipStores = []; // All 5 are 13LM stores, no pure brand flagship
+                const thirteenLMStores = ['H8217001', 'P0034002', 'P0066001', 'P0066002', 'P0143002'];
                 let brandIcon = '';
                 if (thirteenLMStores.includes(storeId)) {
                     brandIcon = '<span class="sparkle-diamond">◆👑</span>';
