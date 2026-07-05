@@ -75,7 +75,7 @@
                 <thead>
                     <tr>
                         <th>月份 Month</th>
-                        <th class="num">GMV</th>
+                        <th>GMV</th>
                         <th class="num">GP</th>
                         <th class="num">店鋪數 Stores</th>
                         <th class="num">MoM 升/跌幅</th>
@@ -109,7 +109,7 @@
                     <tr>
                         <th>店鋪代碼 Store Code</th>
                         <th>店鋪名稱 Store Name</th>
-                        <th class="num">GMV</th>
+                        <th>GMV</th>
                         <th class="num">MoM 升/跌幅</th>
                     </tr>
                 </thead>
@@ -139,7 +139,7 @@
                         <th>排名 Rank</th>
                         <th>店鋪代碼 Store Code</th>
                         <th>店鋪名稱 Store Name</th>
-                        <th class="num">GMV</th>
+                        <th>GMV</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -168,7 +168,7 @@
                         <th>排名 Rank</th>
                         <th>店鋪代碼 Store Code</th>
                         <th>店鋪名稱 Store Name</th>
-                        <th class="num">GMV</th>
+                        <th>GMV</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -376,7 +376,7 @@
                         <th>店鋪代碼 Store Code</th>
                         <th>店鋪名稱 Store Name</th>
                         <th>旗艦店/13LM店</th>
-                        <th class="num">GMV</th>
+                        <th>GMV</th>
                         <th class="num">MoM</th>
                         <th>Target / Non</th>
                         <th>合約到期日</th>
@@ -484,7 +484,7 @@
                 </tr>
                 <tr>
                     <th>月份 Month</th>
-                    <th class="num">GMV</th>
+                    <th>GMV</th>
                     <th class="num">Target GMV</th>
                     <th class="num">GMV Run Rate %</th>
                     <th class="num">店鋪數 Stores</th>
@@ -527,7 +527,7 @@
                 <tr>
                     <th>店鋪代碼 Store Code</th>
                     <th>店鋪名稱 Store Name</th>
-                    <th class="num">GMV</th>
+                    <th>GMV</th>
                     <th class="num">MoM 升/跌幅</th>
                 </tr>
             `;
@@ -586,7 +586,7 @@
                     <th>排名 Rank</th>
                     <th>店鋪代碼 Store Code</th>
                     <th>店鋪名稱 Store Name</th>
-                    <th class="num">GMV</th>
+                    <th>GMV</th>
                 </tr>
             `;
             tbody.innerHTML = displayData.map((t, i) => `
@@ -594,7 +594,7 @@
                     <td><span class="top-badge">#${i + 1}</span></td>
                     <td><a href="https://www.hktvmall.com/hktv/s/${t.primary_store_code}" target="_blank" class="store-link">${t.primary_store_code || 'N/A'}</a></td>
                     <td class="store-name" title="${t.primary_store_name_chi || ''}">${t.primary_store_name_chi || 'N/A'}</td>
-                    <td class="num">${formatNum(t.GMV)}</td>
+                    <td>${formatNum(t.GMV)}</td>
                 </tr>
             `).join('');
         }
@@ -644,7 +644,7 @@ function renderLowMerchants() {
                     <th>排名 Rank</th>
                     <th>店鋪代碼 Store Code</th>
                     <th>店鋪名稱 Store Name</th>
-                    <th class="num">GMV</th>
+                    <th>GMV</th>
                 </tr>
             `;
             tbody.innerHTML = displayData.map((t, i) => `
@@ -652,7 +652,7 @@ function renderLowMerchants() {
                     <td><span class="low-badge">#${i + 1}</span></td>
                     <td><a href="https://www.hktvmall.com/hktv/s/${t.primary_store_code}" target="_blank" class="store-link">${t.primary_store_code || 'N/A'}</a></td>
                     <td class="store-name" title="${t.primary_store_name_chi || ''}">${t.primary_store_name_chi || 'N/A'}</td>
-                    <td class="num">${formatNum(t.GMV)}</td>
+                    <td>${formatNum(t.GMV)}</td>
                 </tr>
             `).join('');
         }
@@ -793,7 +793,7 @@ function renderLowMerchants() {
                     <th>店鋪代碼 Store Code</th>
                     <th>店鋪名稱 Store Name</th>
                     <th>旗艦店/13LM店</th>
-                    <th class="num">GMV</th>
+                    <th>GMV</th>
                     <th class="num">MoM</th>
                     <th>Target / Non</th>
                     <th>合約到期日</th>
