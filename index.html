@@ -24,11 +24,16 @@
         th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f0e0e0; }
         /* Black diamond sparkle animation */
         @keyframes sparkle-black {
-            0%, 100% { color: #1a1a1a; text-shadow: 0 0 1px #666, 0 0 2px #999, 0 0 3px #ccc; opacity: 0.8; transform: rotateY(0deg); }
-            50% { color: #444; text-shadow: 0 0 2px #fff, 0 0 4px #ddd, 0 0 6px #bbb, 0 0 8px #999; opacity: 1; transform: rotateY(180deg); }
+            0%, 100% { color: #1a1a1a; text-shadow: 0 0 2px #555, 0 0 4px #888, 0 0 6px #aaa; opacity: 0.85; transform: rotateY(0deg); }
+            50% { color: #555; text-shadow: 0 0 3px #fff, 0 0 6px #ccc, 0 0 9px #eee, 0 0 12px #fff; opacity: 1; transform: rotateY(180deg); }
+        }
+        /* Gold crown sparkle animation */
+        @keyframes sparkle-gold {
+            0%, 100% { color: #b8860b; text-shadow: 0 0 2px #ffd700, 0 0 4px #daa520, 0 0 6px #ffd700; opacity: 0.9; transform: rotateY(0deg); }
+            50% { color: #ffd700; text-shadow: 0 0 4px #ffd700, 0 0 8px #ffd700, 0 0 12px #ffd700, 0 0 20px #fff; opacity: 1; transform: rotateY(180deg); }
         }
         .sparkle-diamond { display: inline-block; font-size: 14px; animation: sparkle-black 2s ease-in-out infinite; }
-        .sparkle-crown { display: inline-block; font-size: 14px; animation: sparkle 2.5s ease-in-out infinite; animation-delay: 0.5s; }
+        .sparkle-crown { display: inline-block; font-size: 14px; animation: sparkle-gold 2.5s ease-in-out infinite; animation-delay: 0.5s; }
         th { background: #faf5f5; color: #8b5a5a; position: sticky; top: 0; z-index: 20; border-bottom: 2px solid #e8c4c4; }
         thead { position: sticky; top: 0; z-index: 19; }
         tr:hover { background: #fff9f8; }
@@ -346,6 +351,12 @@
                 <option value="Y">已加入 FS</option>
                 <option value="non-fs">未加入</option>
             </select>
+            <label>旗艦店/13LM:</label>
+            <select id="s5Brand">
+                <option value="">全部 All</option>
+                <option value="Y">是</option>
+                <option value="non-brand">否</option>
+            </select>
     
         </div>
         <div class="table-container">
@@ -650,6 +661,7 @@ function renderLowMerchants() {
         document.getElementById('s5Api').addEventListener('change', renderStoreContact);
         document.getElementById('s5Vip').addEventListener('change', renderStoreContact);
         document.getElementById('s5Fs').addEventListener('change', renderStoreContact);
+        document.getElementById('s5Brand').addEventListener('change', renderStoreContact);
 
         function renderStoreContact() {
             const yearSel = document.getElementById('s5Year');
@@ -664,6 +676,7 @@ function renderLowMerchants() {
             const apiSel = document.getElementById('s5Api');
             const vipSel = document.getElementById('s5Vip');
             const fsSel = document.getElementById('s5Fs');
+            const brandSel = document.getElementById('s5Brand');
             const thead = document.querySelector('#storeContactTable thead');
             const tbody = document.querySelector('#storeContactTable tbody');
             const selectedYear = yearSel.value;
@@ -678,6 +691,7 @@ function renderLowMerchants() {
             const selectedApi = apiSel.value;
             const selectedVip = vipSel.value;
             const selectedFs = fsSel.value;
+            const selectedBrand = brandSel.value;
 
             // Build array from contactData (ALL stores), merge with storeData GMV
             let allStores = Object.keys(contactData).map(storeId => {
@@ -699,10 +713,12 @@ function renderLowMerchants() {
                 filtered = filtered.filter(s => s.primary_store_code === selectedStore);
             }
             if (selectedTarget || selectedContractMonth || selectedPayment || selectedColor ||
-                selectedContractType || selectedEarlyBird || selectedApi || selectedVip || selectedFs) {
+                selectedContractType || selectedEarlyBird || selectedApi || selectedVip || selectedFs || selectedBrand) {
                 filtered = filtered.filter(s => {
                     const storeId = s.primary_store_code;
                     const c = contactData[storeId] || {};
+                    const thirteenLMStores = ['H8217001', 'P0034002', 'P0066001', 'P0066002', 'P0143002'];
+                    const is13LM = thirteenLMStores.includes(storeId);
                     if (selectedTarget && c.target_non !== selectedTarget) return false;
                     if (selectedContractMonth && (!c.contract_end || c.contract_end.substring(5, 7) !== selectedContractMonth)) return false;
                     if (selectedPayment && c.payment_term !== selectedPayment) return false;
@@ -716,6 +732,8 @@ function renderLowMerchants() {
                     if (selectedVip === 'non-vip' && c.join_vip === 'Y') return false;
                     if (selectedFs === 'Y' && c.join_fs !== 'Y') return false;
                     if (selectedFs === 'non-fs' && c.join_fs === 'Y') return false;
+                    if (selectedBrand === 'Y' && !is13LM) return false;
+                    if (selectedBrand === 'non-brand' && is13LM) return false;
                     return true;
                 });
             }
