@@ -354,8 +354,9 @@
             <label>旗艦店/13LM:</label>
             <select id="s5Brand">
                 <option value="">全部 All</option>
-                <option value="Y">是</option>
-                <option value="non-brand">否</option>
+                <option value="13LM">13LM 黑色鑽石+皇冠</option>
+                <option value="brand">旗艦店 皇冠圖案</option>
+                <option value="none">冇圖案 顯示 -</option>
             </select>
     
         </div>
@@ -732,8 +733,10 @@ function renderLowMerchants() {
                     if (selectedVip === 'non-vip' && c.join_vip === 'Y') return false;
                     if (selectedFs === 'Y' && c.join_fs !== 'Y') return false;
                     if (selectedFs === 'non-fs' && c.join_fs === 'Y') return false;
-                    if (selectedBrand === 'Y' && !is13LM) return false;
-                    if (selectedBrand === 'non-brand' && is13LM) return false;
+                    if (selectedBrand === '13LM' && !is13LM) return false;
+                    if (selectedBrand === 'brand' && is13LM) return false;
+                    if (selectedBrand === 'brand' && !brandFlagshipStores.includes(storeId)) return false;
+                    if (selectedBrand === 'none' && (is13LM || brandFlagshipStores.includes(storeId))) return false;
                     return true;
                 });
             }
@@ -795,7 +798,7 @@ function renderLowMerchants() {
                 // Brand flagship / 13LM icons
                 const brandFlagshipStores = []; // All 5 are 13LM stores, no pure brand flagship
                 const thirteenLMStores = ['H8217001', 'P0034002', 'P0066001', 'P0066002', 'P0143002'];
-                let brandIcon = '';
+                let brandIcon = '-';
                 if (thirteenLMStores.includes(storeId)) {
                     brandIcon = '<span class="sparkle-diamond">💎</span><span class="sparkle-crown">👑</span>';
                 } else if (brandFlagshipStores.includes(storeId)) {
