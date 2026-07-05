@@ -677,8 +677,8 @@ function renderLowMerchants() {
                 const storeRecord = storeData.find(s => s.primary_store_code === storeId && (!selectedMonth || s.month === selectedMonth));
                 return {
                     primary_store_code: storeId,
-                    primary_store_name_chi: c.store_name || storeRecords[0]?.primary_store_name_chi || c.store_name || '',
-                    GMV: storeRecords.reduce((sum, s) => sum + (s.GMV || 0), 0),
+                    primary_store_name_chi: c.store_name || (storeRecord ? storeRecord.primary_store_name_chi : '') || '',
+                    GMV: storeRecord ? storeRecord.GMV : 0,
                     mom_change: storeRecord ? storeRecord.mom_change : null,
                     early_bird: c.early_bird || ''
                 };
