@@ -42,6 +42,8 @@
         .store-name { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #5d5d5d; }
         .table-container { max-height: 500px; overflow-y: auto; }
         .top-badge { background: #d4a5a5; padding: 2px 8px; border-radius: 3px; font-size: 12px; color: #fff; }
+        .store-link { color: #8b5a5a; text-decoration: none; font-weight: 600; }
+        .store-link:hover { color: #c76b6b; text-decoration: underline; }
         .low-badge { background: #b89090; padding: 2px 8px; border-radius: 3px; font-size: 12px; color: #fff; }
     </style>
 </head>
@@ -524,7 +526,7 @@
             `;
             tbody.innerHTML = filtered.map(s => `
                 <tr>
-                    <td>${s.primary_store_code || 'N/A'}</td>
+                    <td><a href="https://www.hktvmall.com/hktv/s/${s.primary_store_code}" target="_blank" class="store-link">${s.primary_store_code || 'N/A'}</a></td>
                     <td class="store-name" title="${s.primary_store_name_chi || ''}">${s.primary_store_name_chi || 'N/A'}</td>
                     <td class="num">${formatNum(s.GMV)}</td>
                     <td class="num">${formatMom(s.mom_change)}</td>
@@ -583,7 +585,7 @@
             tbody.innerHTML = displayData.map((t, i) => `
                 <tr>
                     <td><span class="top-badge">#${i + 1}</span></td>
-                    <td>${t.primary_store_code || 'N/A'}</td>
+                    <td><a href="https://www.hktvmall.com/hktv/s/${t.primary_store_code}" target="_blank" class="store-link">${t.primary_store_code || 'N/A'}</a></td>
                     <td class="store-name" title="${t.primary_store_name_chi || ''}">${t.primary_store_name_chi || 'N/A'}</td>
                     <td class="num">${formatNum(t.GMV)}</td>
                 </tr>
@@ -641,7 +643,7 @@ function renderLowMerchants() {
             tbody.innerHTML = displayData.map((t, i) => `
                 <tr>
                     <td><span class="low-badge">#${i + 1}</span></td>
-                    <td>${t.primary_store_code || 'N/A'}</td>
+                    <td><a href="https://www.hktvmall.com/hktv/s/${t.primary_store_code}" target="_blank" class="store-link">${t.primary_store_code || 'N/A'}</a></td>
                     <td class="store-name" title="${t.primary_store_name_chi || ''}">${t.primary_store_name_chi || 'N/A'}</td>
                     <td class="num">${formatNum(t.GMV)}</td>
                 </tr>
@@ -812,7 +814,7 @@ function renderLowMerchants() {
                     brandIcon = '<span class="sparkle-crown">👑</span>';
                 }
                 return '<tr>' +
-                    '<td>' + (storeId || 'N/A') + '</td>' +
+                    '<td><a href="https://www.hktvmall.com/hktv/s/' + storeId + '" target="_blank" class="store-link">' + (storeId || 'N/A') + '</a></td>' +
                     '<td class="store-name" title="' + (s.primary_store_name_chi || '') + '">' + (s.primary_store_name_chi || 'N/A') + '</td>' +
                     '<td style="text-align:center;font-size:16px;">' + brandIcon + '</td>' +
                     '<td class="num">' + displayGmv + '</td>' +
