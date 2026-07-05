@@ -45,6 +45,12 @@
         .store-link { color: #8b5a5a; text-decoration: none; font-weight: 600; }
         .store-link:hover { color: #c76b6b; text-decoration: underline; }
         .low-badge { background: #b89090; padding: 2px 8px; border-radius: 3px; font-size: 12px; color: #fff; }
+        .tape-blue { background: #1a1a1a; color: #fff; padding: 2px 8px; border-radius: 3px; }
+        .tape-green { background: #4caf50; color: #fff; padding: 2px 8px; border-radius: 3px; }
+        .tape-pink { background: #e91e63; color: #fff; padding: 2px 8px; border-radius: 3px; }
+        .tape-orange { background: #ff9800; color: #fff; padding: 2px 8px; border-radius: 3px; }
+        .tape-violet { background: #9c27b0; color: #fff; padding: 2px 8px; border-radius: 3px; }
+        .contract-warning { color: #f44336; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -813,18 +819,39 @@ function renderLowMerchants() {
                 } else if (brandFlagshipStores.includes(storeId)) {
                     brandIcon = '<span class="sparkle-crown">👑</span>';
                 }
+                // Format early_bird with $ and commas
+                const eb = s.early_bird;
+                const ebDisplay = (eb && eb !== '-' && !isNaN(eb)) ? '$' + parseFloat(eb).toLocaleString('en-US') : (eb || '-');
+                // Color tape with background
+                const colorTape = c.color_tape || '-';
+                const tapeClass = colorTape !== '-' ? 'tape-' + colorTape.toLowerCase() : '';
+                const tapeDisplay = tapeClass ? '<span class="' + tapeClass + '">' + colorTape + '</span>' : colorTape;
+                // Contract end date warning (within 1 week of 3 months before today)
+                const contractEnd = c.contract_end;
+                let contractDisplay = contractEnd || '-';
+                if (contractEnd) {
+                    const today = new Date();
+                    const threeMonthsAgo = new Date(today);
+                    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+                    const oneWeekBefore = new Date(threeMonthsAgo);
+                    oneWeekBefore.setDate(oneWeekBefore.getDate() - 7);
+                    const contractDate = new Date(contractEnd);
+                    if (contractDate >= oneWeekBefore && contractDate <= threeMonthsAgo) {
+                        contractDisplay = '<span class="contract-warning">' + contractEnd + '</span>';
+                    }
+                }
                 return '<tr>' +
                     '<td><a href="https://www.hktvmall.com/hktv/s/' + storeId + '" target="_blank" class="store-link">' + (storeId || 'N/A') + '</a></td>' +
                     '<td class="store-name" title="' + (s.primary_store_name_chi || '') + '">' + (s.primary_store_name_chi || 'N/A') + '</td>' +
                     '<td style="text-align:center;font-size:16px;">' + brandIcon + '</td>' +
-                    '<td class="num">' + displayGmv + '</td>' +
-                    '<td class="num">' + formatMom(s.mom_change) + '</td>' +
+                    '<td>' + displayGmv + '</td>' +
+                    '<td>' + formatMom(s.mom_change) + '</td>' +
                     '<td>' + (c.target_non || '-') + '</td>' +
-                    '<td>' + (c.contract_end || '-') + '</td>' +
+                    '<td>' + contractDisplay + '</td>' +
                     '<td>' + (c.payment_term || '-') + '</td>' +
-                    '<td>' + (c.color_tape || '-') + '</td>' +
+                    '<td style="text-align:center;">' + tapeDisplay + '</td>' +
                     '<td>' + (c.contract_type || '-') + '</td>' +
-                    '<td>' + (c.early_bird || '-') + '</td>' +
+                    '<td>' + ebDisplay + '</td>' +
                     '<td>' + (c.api_store || '-') + '</td>' +
                     '<td>' + (c.join_vip || '-') + '</td>' +
                     '<td>' + (c.join_fs || '-') + '</td>' +
