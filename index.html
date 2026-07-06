@@ -52,6 +52,11 @@
         .tape-violet { background: #9c27b0; color: #fff; padding: 2px 8px; border-radius: 3px; }
         .contract-warning { color: #f44336; font-weight: bold; }
         .terminated-store { background: #f48fb1; }
+        #topTable, #lowTable { table-layout: fixed; width: 100%; }
+        #topTable th:nth-child(2), #topTable td:nth-child(2),
+        #lowTable th:nth-child(2), #lowTable td:nth-child(2) { width: 130px; overflow: hidden; text-overflow: ellipsis; }
+        #topTable th:nth-child(3), #topTable td:nth-child(3),
+        #lowTable th:nth-child(3), #lowTable td:nth-child(3) { width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     </style>
 </head>
 <body>
