@@ -977,14 +977,30 @@ function renderLowMerchants() {
         renderStoreContact()
         renderTargetStoreTable();;
 
-        // After renders, set default month selections to current month
-        document.getElementById('monthSelect').value = currentMonthVal;
+        // Set year defaults to current year for sections with year filters
+        document.getElementById('s2Year').value = currentYear; // 店鋪每月銷售額
+        document.getElementById('s3Year').value = currentYear; // 排名最高50間店
+        document.getElementById('s4Year').value = currentYear; // 排名最差50間店
+
+        // After renders, set default month selections:
+        // - 月度總銷售額 (monthSelect) → "All" (blank)
+        // - 店鋪每月銷售額 (storeStartMonth/EndMonth) → 當月
+        // - 排名最高/最差50間店 (topStartMonth/EndMonth, lowStartMonth/EndMonth) → 當月
+        // - Target Store (s6Month) → "All" (blank)
+        document.getElementById('monthSelect').value = ''; // All
         document.getElementById('storeStartMonth').value = currentMonthVal;
         document.getElementById('storeEndMonth').value = currentMonthVal;
-        document.getElementById('s6Month').value = currentMonthVal;
+        document.getElementById('topStartMonth').value = currentMonthVal;
+        document.getElementById('topEndMonth').value = currentMonthVal;
+        document.getElementById('lowStartMonth').value = currentMonthVal;
+        document.getElementById('lowEndMonth').value = currentMonthVal;
+        document.getElementById('s6Month').value = ''; // All
+
         // Re-render with defaults
         renderMonthTotal();
         renderStoreMonthly();
+        renderTopMerchants();
+        renderLowMerchants();
         renderTargetStoreTable();
 
         // Year filter listeners
