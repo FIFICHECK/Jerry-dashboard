@@ -981,6 +981,7 @@ function renderLowMerchants() {
         document.getElementById('s2Year').value = currentYear; // 店鋪每月銷售額
         document.getElementById('s3Year').value = currentYear; // 排名最高50間店
         document.getElementById('s4Year').value = currentYear; // 排名最差50間店
+        document.getElementById('s5Year').value = currentYear; // 商戶資料
 
         // After renders, set default month selections:
         // - 月度總銷售額 (monthSelect) → "All" (blank)
@@ -1002,6 +1003,7 @@ function renderLowMerchants() {
         renderTopMerchants();
         renderLowMerchants();
         renderTargetStoreTable();
+        renderStoreContact(); // 商戶資料
 
         // Year filter listeners
         document.getElementById('s1Year').addEventListener('change', () => { renderSummaryCards(); renderMonthTotal(); });
