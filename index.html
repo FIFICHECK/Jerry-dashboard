@@ -623,14 +623,39 @@ function renderStoreMonthly() {
                     <th style="text-align:right;">MoM 升/跌幅</th>
                 </tr>
             `;
-            tbody.innerHTML = displayData.map(s => `
-                <tr>
+            // Build prev month GMV map for MoM calculation
+            let prevMonthGMVMap = {};
+            if (displayData.length > 0 && displayData[0].GMV > 0) {
+                const currMonth = startMonth || endMonth || (filtered.length > 0 ? filtered.reduce((max, s) => s.month > max.month ? s : max, filtered[0]).month : null);
+                if (currMonth) {
+                    const [cy, cm] = currMonth.split('-').map(Number);
+                    const pmDate = new Date(cy, cm - 2, 1);
+                    const prevMonth = String(pmDate.getFullYear()) + '-' + String(pmDate.getMonth() + 1).padStart(2, '0');
+                    filtered.forEach(s => {
+                        if (s.month === prevMonth) {
+                            if (!prevMonthGMVMap[s.primary_store_code]) {
+                                prevMonthGMVMap[s.primary_store_code] = 0;
+                            }
+                            prevMonthGMVMap[s.primary_store_code] += s.GMV || 0;
+                        }
+                    });
+                }
+            }
+            tbody.innerHTML = displayData.map(s => {
+                const prevGMV = prevMonthGMVMap[s.primary_store_code] || 0;
+                const currGMV = s.GMV;
+                let momVal = null;
+                if (prevGMV > 0 && currGMV > 0) {
+                    momVal = ((currGMV - prevGMV) / prevGMV * 100);
+                }
+                const momDisplay = momVal !== null ? formatMom(momVal) : '—';
+                return `<tr>
                     <td><a href="https://www.hktvmall.com/hktv/s/${s.primary_store_code}" target="_blank" class="store-link">${s.primary_store_code || 'N/A'}</a></td>
                     <td class="store-name" title="${s.primary_store_name_chi || ''}">${s.primary_store_name_chi || 'N/A'}</td>
                     <td style="text-align:right;">${formatNum(s.GMV)}</td>
-                    <td style="text-align:right;">—</td>
-                </tr>
-            `).join('');
+                    <td style="text-align:right;">${momDisplay}</td>
+                </tr>`;
+            }).join('');
         }
 
         function renderTopMerchants() {
