@@ -457,7 +457,14 @@
             if (num < 80) return '<span style="color:#f44336;font-weight:bold;">▼ ' + num.toFixed(1) + '%</span>';
             return '<span style="color:#888;">' + num.toFixed(1) + '%</span>';
         }
-function filterByYear(data, year) {
+        function getPrevMonth(yearMonth) {
+            if (!yearMonth) return null;
+            const [year, month] = yearMonth.split('-').map(Number);
+            const date = new Date(year, month - 2, 1);
+            return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
+        }
+
+        function filterByYear(data, year) {
             if (!year) return data;
             return data.filter(item => item.month && item.month.startsWith(year));
         }
@@ -623,14 +630,40 @@ function renderStoreMonthly() {
                     <th style="text-align:right;">MoM 升/跌幅</th>
                 </tr>
             `;
-            tbody.innerHTML = displayData.map(s => `
-                <tr>
+            // Build prevMonthGMVMap from FULL year data (yearFiltered), not filtered
+            let yearFiltered = filterByYear(storeData, selectedYear);
+            const prevMonthGMVMap = {};
+            yearFiltered.forEach(s => {
+                if (!prevMonthGMVMap[s.primary_store_code]) {
+                    prevMonthGMVMap[s.primary_store_code] = {};
+                }
+                prevMonthGMVMap[s.primary_store_code][s.month] = s.GMV;
+            });
+            // Single month = MoM vs prev month; range = '-'
+            const isSingleMonth = startMonth && endMonth && startMonth === endMonth;
+            const prevMonth = isSingleMonth ? getPrevMonth(startMonth) : null;
+            tbody.innerHTML = displayData.map(s => {
+                let momDisplay = '-';
+                if (isSingleMonth && prevMonth) {
+                    const prevGMV = prevMonthGMVMap[s.primary_store_code]?.[prevMonth];
+                    if (prevGMV && prevGMV > 0) {
+                        const mom = ((s.GMV - prevGMV) / prevGMV * 100);
+                        if (mom > 0) {
+                            momDisplay = '<span style="color:#4caf50;font-weight:bold;">▲ +' + mom.toFixed(1) + '%</span>';
+                        } else {
+                            momDisplay = '<span style="color:#f44336;font-weight:bold;">▼ ' + mom.toFixed(1) + '%</span>';
+                        }
+                    } else {
+                        momDisplay = '<span style="color:#888;">N/A</span>';
+                    }
+                }
+                return `<tr>
                     <td><a href="https://www.hktvmall.com/hktv/s/${s.primary_store_code}" target="_blank" class="store-link">${s.primary_store_code || 'N/A'}</a></td>
                     <td class="store-name" title="${s.primary_store_name_chi || ''}">${s.primary_store_name_chi || 'N/A'}</td>
                     <td style="text-align:right;">${formatNum(s.GMV)}</td>
-                    <td style="text-align:right;">—</td>
-                </tr>
-            `).join('');
+                    <td style="text-align:right;">${momDisplay}</td>
+                </tr>`;
+            }).join('');
         }
 
         function renderTopMerchants() {
@@ -946,7 +979,7 @@ function renderLowMerchants() {
                 return '<tr>' +
                     '<td class="' + terminatedClass + '"><a href="https://www.hktvmall.com/hktv/s/' + storeId + '" target="_blank" class="store-link' + (isTerminated ? '' : '') + '">' + (storeId || 'N/A') + '</a></td>' +
                     '<td class="store-name' + terminatedClass + '" title="' + (s.primary_store_name_chi || '') + '">' + (s.primary_store_name_chi || 'N/A') + '</td>' +
-                    '<td style="text-align:center;font-size:16px;">-</td>' +
+                    '<td style="text-align:center;font-size:16px;">' + brandIcon + '</td>' +
                     '<td>' + displayGmv + '</td>' +
                     '<td>' + formatMom(s.mom_change) + '</td>' +
                     '<td>' + (c.target_non || defaultTargetNon) + '</td>' +
