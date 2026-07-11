@@ -116,7 +116,44 @@
             /* Hide Top SKU table columns Rank + Qty on very small screens */
             #topSKUTable th:nth-child(1), #topSKUTable td:nth-child(1),
             #topSKUTable th:nth-child(5), #topSKUTable td:nth-child(5) { display: none; }
-        }
+        
+    #topSKUTable th:nth-child(2),
+    #topSKUTable td:nth-child(2) { width: 18%; min-width: 70px; font-size: 8px; }
+    #topSKUTable th:nth-child(3),
+    #topSKUTable td:nth-child(3) { width: 25%; min-width: 80px; font-size: 8px; }
+    #topSKUTable th:nth-child(5),
+    #topSKUTable td:nth-child(5) { width: 10%; min-width: 40px; }
+    #topSKUTable th:nth-child(6),
+    #topSKUTable td:nth-child(6) { width: 12%; min-width: 50px; }
+    #storeContactTable th:nth-child(2),
+    #storeContactTable td:nth-child(2) { width: 14%; min-width: 70px; font-size: 8px; }
+}
+
+/* === Fixed column widths for wide tables === */
+#topSKUTable { table-layout: fixed; }
+#topSKUTable th:nth-child(1),
+#topSKUTable td:nth-child(1) { width: 8%; min-width: 50px; }
+#topSKUTable th:nth-child(2),
+#topSKUTable td:nth-child(2) { width: 22%; min-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#topSKUTable th:nth-child(3),
+#topSKUTable td:nth-child(3) { width: 30%; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#topSKUTable th:nth-child(4),
+#topSKUTable td:nth-child(4) { width: 16%; min-width: 80px; }
+#topSKUTable th:nth-child(5),
+#topSKUTable td:nth-child(5) { width: 10%; min-width: 60px; }
+#topSKUTable th:nth-child(6),
+#topSKUTable td:nth-child(6) { width: 14%; min-width: 70px; }
+
+#storeContactTable { table-layout: fixed; }
+#storeContactTable th:nth-child(1),
+#storeContactTable td:nth-child(1) { width: 10%; min-width: 70px; }
+#storeContactTable th:nth-child(2),
+#storeContactTable td:nth-child(2) { width: 18%; min-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#storeContactTable th:nth-child(4),
+#storeContactTable td:nth-child(4) { width: 12%; min-width: 80px; }
+#storeContactTable th:nth-child(5),
+#storeContactTable td:nth-child(5) { width: 8%; min-width: 50px; }
+
 /* === Mobile Responsive === */
 @media (max-width: 768px) {
     body { padding: 10px; }
